@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  avatarUrl String?
+  timezone  String   @default("Asia/Kolkata")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  google        GoogleConnection?
+  conversations Conversation[]
+  actions       ActionLog[]
+}
+
+// One per user: the Google account Aura acts on.
+// Tokens are encrypted by the API before they are stored.
+model GoogleConnection {
+  id                    String   @id @default(uuid())
+  userId                String   @unique
+  googleSub             String   @unique
+  scopes                String[]
+  encryptedRefreshToken String
+  connectedAt           DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// One conversation = everything said between one "Aura listen" and the orb closing.
+model Conversation {
+  id        String   @id @default(uuid())
+  userId    String
+  startedAt DateTime @default(now())
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@index([userId, startedAt])
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+model Message {
+  id             String      @id @default(uuid())
+  conversationId String
+  role           MessageRole
+  text           String
+  createdAt      DateTime    @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+enum ActionStatus {
+  PENDING_CONFIRMATION
+  SUCCEEDED
+  FAILED
+  CANCELLED
+}
+
+// Every Google action Aura takes, so users can see exactly what it did.
+model ActionLog {
+  id        String       @id @default(uuid())
+  userId    String
+  tool      String // e.g. "gmail.send", "calendar.createEvent"
+  input     Json
+  status    ActionStatus
+  error     String?
+  createdAt DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
