@@ -8,6 +8,7 @@ Aura is a voice assistant for your laptop. Say "Aura listen", an animated orb ap
 
 Each week comes with a lesson that explains every piece of code added:
 
+- [Build guide, week 1](docs/build-guide/week-01-foundation.md): rebuild the foundation from an empty folder, every command and every line explained
 - [Lesson 1: The foundation](docs/lessons/01-foundation.md) (monorepo, PostgreSQL and Prisma, NestJS, shared schemas, the app talking to the API, tests, CI)
 
 ## Architecture
