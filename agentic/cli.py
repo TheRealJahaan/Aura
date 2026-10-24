@@ -13,6 +13,8 @@
     python -m agentic.cli jarvis --check          # what the microphone hears
     python -m agentic.cli history                 # what you said to Jarvis lately, on the Mac and the phone
     python -m agentic.cli app                     # the Jarvis server for the phone app (Day 10)
+    python -m agentic.cli always-on               # run the server and ngrok by themselves (Day 11)
+    python -m agentic.cli always-on --off
     python -m agentic.cli users                   # who signed in to the phone app
     python -m agentic.cli forget someone@gmail.com
     python -m agentic.cli costs
@@ -53,6 +55,9 @@ def main(argv=None) -> int:
     sub.add_parser("history", help="What you said to Jarvis lately and what it answered")
     p_app = sub.add_parser("app", help="Run the Jarvis server for the phone app")
     p_app.add_argument("--port", type=int, default=8000)
+    p_always = sub.add_parser("always-on", help="Run the server and ngrok in the background whenever your Mac is on")
+    p_always.add_argument("--off", action="store_true", help="Stop running them in the background")
+    p_always.add_argument("--port", type=int, default=8000)
     sub.add_parser("users", help="Who has signed in to the phone app")
     p_forget = sub.add_parser("forget", help="Remove someone from the phone app and delete their data")
     p_forget.add_argument("email")
@@ -193,6 +198,21 @@ def main(argv=None) -> int:
         except ConnectionError:
             print("Ollama isn't running. Open the Ollama app from Applications and try again.", file=sys.stderr)
             return 1
+    elif args.cmd == "always-on":
+        from .always_on import install, uninstall
+
+        if args.off:
+            print("Stopped. Start the server and ngrok yourself again when you need them."
+                  if uninstall() else "Always on wasn't set up.")
+            return 0
+        try:
+            install(args.port)
+        except RuntimeError as e:
+            print(e, file=sys.stderr)
+            return 1
+        print(f"Jarvis is now always on at {settings.public_url}")
+        print("The server and ngrok start when you log in and restart by themselves, and the Mac stays awake")
+        print("while it's plugged in. Keep Ollama open. Logs are in data/logs. To stop: always-on --off")
     elif args.cmd == "users":
         from . import accounts
 

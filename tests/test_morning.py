@@ -43,3 +43,17 @@ def test_protected_folders_are_refused(tmp_path, monkeypatch):
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
     assert protected_folder(tmp_path / "Downloads" / "agentic-ai") == "Downloads"
     assert protected_folder(tmp_path / "agentic-ai") is None
+
+
+def test_always_on_runs_server_ngrok_and_keeps_awake(tmp_path):
+    from agentic.always_on import plists
+
+    jobs = plists("https://me.ngrok-free.dev", "/opt/homebrew/bin/ngrok", python="/x/.venv/bin/python",
+                  project_dir=tmp_path)
+    assert jobs["server"]["ProgramArguments"] == ["/x/.venv/bin/python", "-m", "agentic.cli", "app", "--port", "8000"]
+    assert jobs["ngrok"]["ProgramArguments"][:3] == ["/opt/homebrew/bin/ngrok", "http", "127.0.0.1:8000"]
+    assert "https://me.ngrok-free.dev" in jobs["ngrok"]["ProgramArguments"]
+    assert jobs["awake"]["ProgramArguments"] == ["/usr/bin/caffeinate", "-s"]
+    for job in jobs.values():
+        assert job["RunAtLoad"] and job["KeepAlive"]
+        assert job["WorkingDirectory"] == str(tmp_path)

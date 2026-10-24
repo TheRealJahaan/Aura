@@ -230,3 +230,24 @@ Your data on the Mac, all in the `data` folder (never uploaded anywhere):
 | `agentic/accounts.py` | The app database (`data/app.db`) and where each person's data lives |
 | `agentic/store.py` | The Gmail memory database, its cleanup, and the one-sort-at-a-time lock |
 | `android/` | The Android app: `MainActivity` (the screen), `JarvisService` (listen, think, speak), `Orb` (the floating orb), `Api` (talks to your Mac) |
+
+## Day 11: Jarvis always on
+
+Instead of opening two Terminal windows every time, let your Mac run Jarvis by itself:
+
+```bash
+python -m agentic.cli always-on          # once; it stays set up after restarts
+python -m agentic.cli always-on --off    # to stop
+```
+
+This adds three background jobs to macOS that start when you log in and restart if they stop:
+the Jarvis server, ngrok, and `caffeinate`, which keeps the Mac awake while it's plugged in.
+Keep the Ollama app open (it starts at login by default). Closing the lid still puts the Mac to sleep,
+and Jarvis is offline while the Mac is asleep or off. What the jobs print goes to `data/logs`.
+
+To stop signing in again every 7 days, open Google Auth Platform, then Audience, and click **Publish app**.
+Google then shows an "unverified app" page at sign-in (tap Continue), and up to 100 people can use it.
+
+| File | Purpose |
+| --- | --- |
+| `agentic/always_on.py` | The background jobs for the server, ngrok and keeping the Mac awake |
