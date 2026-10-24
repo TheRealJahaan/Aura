@@ -1,0 +1,21 @@
+name: Feature idea
+description: Something you'd like Aura to do
+labels: [enhancement]
+body:
+  - type: textarea
+    id: say
+    attributes:
+      label: What would you say to Aura?
+      placeholder: '"Move my 3 PM to tomorrow"'
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: What should happen?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it matters to you
