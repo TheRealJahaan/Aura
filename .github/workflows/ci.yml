@@ -33,7 +33,8 @@ jobs:
       - run: npm run build -w packages/shared
       - run: npm run typecheck
       - run: npm run lint
-      - run: npm test
+      - name: Unit tests (every workspace)
+        run: npm test
       - name: Migrate database
         run: npx prisma migrate deploy
         working-directory: apps/api
@@ -41,3 +42,17 @@ jobs:
         run: npm run test:e2e -w apps/api
       - name: Build API
         run: npm run build -w apps/api
+      - name: Install Chromium for the UI tests
+        run: npx playwright install --with-deps chromium
+        working-directory: apps/desktop
+      - name: Desktop UI tests
+        run: npm run test:ui -w apps/desktop
+      - name: Electron smoke test
+        run: xvfb-run -a npm run test:smoke -w apps/desktop
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/desktop/playwright-report
+          if-no-files-found: ignore

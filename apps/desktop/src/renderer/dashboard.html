@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; connect-src 'self'"
+    />
+    <title>Aura</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand"><span class="mini-orb"></span><h1>Aura</h1></div>
+      <ul class="pills" id="pills" aria-label="Status"></ul>
+    </header>
+
+    <main class="grid">
+      <section class="card account" id="account" aria-labelledby="account-title">
+        <h2 id="account-title">Your Google account</h2>
+        <div id="account-body"></div>
+      </section>
+
+      <section class="card setup" id="setup" aria-labelledby="setup-title" hidden>
+        <h2 id="setup-title">Finish setting up</h2>
+        <ol id="setup-list"></ol>
+      </section>
+
+      <section class="card ask" aria-labelledby="ask-title">
+        <h2 id="ask-title">Ask Aura</h2>
+        <form id="ask-form">
+          <input id="ask-input" type="text" maxlength="2000" placeholder="Try “brief me” or “open mail”" autocomplete="off" aria-label="Command" />
+          <button type="submit" class="primary">Send</button>
+        </form>
+        <div class="answer" id="answer" aria-live="polite" hidden>
+          <p id="answer-text"></p>
+          <div id="answer-confirm" hidden>
+            <dl id="answer-details"></dl>
+            <div class="row">
+              <button id="answer-cancel" class="secondary">Cancel</button>
+              <button id="answer-approve" class="primary">Go ahead</button>
+            </div>
+          </div>
+        </div>
+        <h3>Try saying</h3>
+        <ul class="examples" id="examples"></ul>
+      </section>
+
+      <section class="card activity" aria-labelledby="activity-title">
+        <div class="row space">
+          <h2 id="activity-title">What Aura did</h2>
+          <button id="refresh" class="link">Refresh</button>
+        </div>
+        <p class="muted">Every change Aura makes in your account shows up here. Undo anything that can be undone.</p>
+        <ul class="log" id="log"></ul>
+      </section>
+    </main>
+    <script type="module" src="dashboard.js"></script>
+  </body>
+</html>
