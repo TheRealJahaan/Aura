@@ -75,6 +75,10 @@ class MainActivity : Activity() {
     private fun signIn() {
         api.server = server.text.toString()
         server.setText(api.server)
+        if (api.server.isEmpty()) {
+            status.text = "First type your Mac's address from ngrok, like https://your-name.ngrok-free.dev"
+            return
+        }
         status.text = "Checking your Mac..."
         Thread {
             val reachable = api.reachable()
@@ -218,6 +222,8 @@ class MainActivity : Activity() {
         column.addView(text("Your Mac's address", 13f, MUTED), spaced(24))
         server = EditText(this).apply {
             setText(api.server)
+            hint = "https://your-name.ngrok-free.dev"
+            setHintTextColor(MUTED)
             setSingleLine()
             inputType = InputType.TYPE_TEXT_VARIATION_URI
             setTextColor(Color.WHITE)

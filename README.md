@@ -12,6 +12,18 @@ The AI runs on your own Mac with [Ollama](https://ollama.com) (`qwen3:8b`), so y
 | `android/` | The Android app: Google sign-in, the floating orb and the voice loop |
 | `tests/` | Tests that run without Gmail, Ollama or an API key (`python -m pytest -q`) |
 
+### Quick start
+
+You need a Mac (Apple Silicon, 16 GB is comfortable) or a Linux PC, a Google account and, for the phone app, an Android phone.
+Everything is free.
+
+1. **Day 1:** install Python and Ollama, then `pip install -r requirements.txt`.
+2. **Day 2:** make your own Google Cloud project and save its `credentials.json` here. This lets Jarvis use your Gmail.
+3. **Days 6 to 8:** run `python -m agentic.cli jarvis` to talk to Jarvis on your computer.
+4. **Day 10:** set up ngrok and the Google web client, then install the app on your phone.
+
+Your own keys and sign-ins (`.env`, `credentials.json`, `web_client.json`, `data/`) stay on your computer and are never uploaded.
+
 The project was built in stages, one per day. Each section below explains one stage and how to set it up.
 
 ## Day 1: first Claude call with cost logging
@@ -180,8 +192,12 @@ One-time setup:
    save it as `web_client.json` in this folder.
 3. **Settings.** In `.env`, set `AGENTIC_PUBLIC_URL=https://<your-domain>` and `AGENTIC_YOUR_NAME=<your first name>`.
    Then `pip install -r requirements.txt` for the server packages.
-4. **The app.** Open the `android` folder in Android Studio, connect your phone with USB debugging on, and press Run.
-   In the app, check your Mac's address and tap Sign in with Google, then Start Jarvis.
+4. **The app.** Either download `jarvis.apk` from this repo's [Releases](../../releases) page and open it on your
+   phone (allow "install unknown apps" when asked), or open the `android` folder in Android Studio, connect your
+   phone with USB debugging on, and press Run.
+   In the app, type your Mac's address (`https://<your-domain>`), tap Sign in with Google, then Start Jarvis.
+5. **Friends.** To let someone use your Jarvis, add their Gmail under Google Auth Platform, then Audience, then
+   Test users (up to 100). They install the app and type your address. Each person gets their own memory and rules.
 
 Every time you want Jarvis on your phone, run these on your Mac in two Terminal windows:
 

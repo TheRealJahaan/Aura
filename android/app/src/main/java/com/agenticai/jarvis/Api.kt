@@ -87,12 +87,12 @@ class Api(context: Context) {
     }
 
     companion object {
-        // Your Mac's secure link from ngrok. You can change it on the app's first screen.
-        const val DEFAULT_SERVER = "https://debatable-satin-bust.ngrok-free.dev"
+        // Empty until you type your Mac's secure link from ngrok on the app's first screen.
+        const val DEFAULT_SERVER = ""
 
         fun clean(address: String): String {
             val trimmed = address.trim().trimEnd('/')
-            return if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) trimmed else "https://$trimmed"
+            return if (trimmed.isEmpty()) "" else if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) trimmed else "https://$trimmed"
         }
     }
 }
