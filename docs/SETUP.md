@@ -34,7 +34,7 @@ If you use `qwen3:4b`, set `OLLAMA_MODEL=qwen3:4b` in step 3.
 Install the project:
 
 ```bash
-git clone https://github.com/TheRealJahaan/Aura-Practice.git aura
+git clone https://github.com/TheRealJahaan/Aura.git aura
 cd aura
 npm install                      # never use sudo with npm
 npm run build -w packages/shared

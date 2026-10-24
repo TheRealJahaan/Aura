@@ -53,7 +53,7 @@ preps you for meetings and opens anything you ask for. The AI runs on your Mac. 
 You need a Mac, [Node 22](https://nodejs.org), [Docker Desktop](https://www.docker.com/products/docker-desktop/) and [Ollama](https://ollama.com). Everything is free.
 
 ```bash
-git clone https://github.com/TheRealJahaan/Aura-Practice.git aura && cd aura
+git clone https://github.com/TheRealJahaan/Aura.git aura && cd aura
 npm install
 npm run build -w packages/shared
 
