@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Small white orb for the notification bar -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M2,12a10,10 0,1 1,20 0a10,10 0,1 1,-20 0zM6,12a6,6 0,1 0,12 0a6,6 0,1 0,-12 0z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M9,12a3,3 0,1 1,6 0a3,3 0,1 1,-6 0z" />
+</vector>

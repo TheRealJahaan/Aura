@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<style>
+  /* The Jarvis orb on the phone, the same look as on the Mac. It fills whatever window it is in.
+     The app changes it with setState("idle" | "listening" | "thinking" | "speaking") and setLevel(0 to 1). */
+  html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; }
+  body { display: grid; place-items: center; }
+  .orb {
+    position: relative; width: 62vmin; height: 62vmin; border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, #0b1026 0%, #05060f 70%);
+    box-shadow: 0 0 10vmin 2vmin rgba(120, 90, 255, 0.45), 0 0 18vmin 4vmin rgba(0, 200, 255, 0.18);
+    overflow: hidden; transition: box-shadow 0.4s, opacity 0.4s, transform 0.4s;
+  }
+  .blob {
+    position: absolute; inset: -20%; border-radius: 50%; mix-blend-mode: screen; filter: blur(6vmin);
+    animation: spin linear infinite;
+  }
+  .b1 { background: radial-gradient(circle at 30% 35%, #ff3cac 0%, transparent 45%); animation-duration: 6s; }
+  .b2 { background: radial-gradient(circle at 70% 40%, #00d4ff 0%, transparent 45%); animation-duration: 8s; animation-direction: reverse; }
+  .b3 { background: radial-gradient(circle at 50% 75%, #784ba0 0%, transparent 50%); animation-duration: 10s; }
+  .b4 { background: radial-gradient(circle at 40% 60%, #2bff88 0%, transparent 35%); animation-duration: 7s; animation-direction: reverse; opacity: 0.6; }
+  .shine {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.35), transparent 40%);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes breathe { 0%, 100% { transform: scale(0.96); } 50% { transform: scale(1.06); } }
+  @keyframes rest { 0%, 100% { transform: scale(0.82); } 50% { transform: scale(0.88); } }
+
+  body.idle .orb { animation: rest 4s ease-in-out infinite; opacity: 0.92; }
+  body.idle .blob { animation-duration: 14s; }
+  body.thinking .blob { animation-duration: 1.6s; }
+  body.thinking .orb { box-shadow: 0 0 8vmin 2vmin rgba(255, 255, 255, 0.35), 0 0 16vmin 4vmin rgba(120, 90, 255, 0.3); }
+  body.speaking .orb { animation: breathe 0.9s ease-in-out infinite; }
+  body.speaking .b4 { opacity: 1; }
+</style>
+</head>
+<body class="idle">
+  <div class="orb" id="orb">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+    <div class="shine"></div>
+  </div>
+<script>
+  const orb = document.getElementById("orb");
+  let target = 0, shown = 0;
+  function setState(state) {
+    document.body.className = state;
+    if (state !== "listening") target = 0;
+  }
+  function setLevel(level) {          // microphone loudness, 0 to 1
+    target = Math.min(level * 0.25, 0.22);
+  }
+  function frame() {                  // grow with your voice, smoothly
+    shown += (target - shown) * 0.25;
+    if (document.body.className === "listening") orb.style.transform = `scale(${1 + shown})`;
+    else orb.style.transform = "";
+    requestAnimationFrame(frame);
+  }
+  frame();
+</script>
+</body>
+</html>

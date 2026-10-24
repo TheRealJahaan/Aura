@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Jarvis orb as the app icon: a soft glow, a pink-purple-blue ball and a shine -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:pathData="M24,54a30,30 0,1 1,60 0a30,30 0,1 1,-60 0z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="54"
+                android:centerY="54"
+                android:endColor="#007C5CFF"
+                android:gradientRadius="30"
+                android:startColor="#CC7C5CFF"
+                android:type="radial" />
+        </aapt:attr>
+    </path>
+    <path android:pathData="M34,54a20,20 0,1 1,40 0a20,20 0,1 1,-40 0z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerColor="#FF784BA0"
+                android:endColor="#FF00D4FF"
+                android:endX="70"
+                android:endY="70"
+                android:startColor="#FFFF3CAC"
+                android:startX="38"
+                android:startY="38"
+                android:type="linear" />
+        </aapt:attr>
+    </path>
+    <path
+        android:fillColor="#59FFFFFF"
+        android:pathData="M41,46a6,6 0,1 1,12 0a6,6 0,1 1,-12 0z" />
+</vector>
